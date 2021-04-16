@@ -1,0 +1,7 @@
+node_modules/
+build/
+# generated files by confy
+/babel.config.js
+/.eslintrc*
+/.prettierrc*
+/tsconfig.json
