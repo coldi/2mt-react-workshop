@@ -8,8 +8,8 @@ const server = createTestApi();
 
 // test setup
 beforeAll(() => {
+    // TODO: move to jest `setupFilesAfterEnv` config: https://jestjs.io/docs/configuration#setupfilesafterenv-array
     jest.setTimeout(60_000);
-
     // mock fetch
     global.fetch = (originalUrl: string, options: any) => {
         let url = originalUrl;

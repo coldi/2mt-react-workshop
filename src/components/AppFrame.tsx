@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import AppNav from './AppNav';
+import GameCounter from './GameCounter';
 
 const styles = {
     appBar: (theme: Theme) => css`
@@ -64,6 +65,7 @@ export default function AppFrame() {
                             Workshop App
                         </Link>
                     </Typography>
+                    <GameCounter />
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" css={styles.drawer}>

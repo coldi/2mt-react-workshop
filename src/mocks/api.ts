@@ -1,11 +1,15 @@
 import { rest } from 'msw';
 import { Game } from '../types/api';
 
+// set default data
 if (sessionStorage.getItem('count') == null) {
     sessionStorage.setItem('count', JSON.stringify(0));
 }
+if (sessionStorage.getItem('games') == null) {
+    sessionStorage.setItem('games', JSON.stringify([]));
+}
 
-let gameCount = 1;
+const newId = () => `${Date.now()}-${Math.ceil(Math.random() * 999)}}`;
 
 export const handlers = (apiBaseUrl = '') => [
     // example api
@@ -26,14 +30,18 @@ export const handlers = (apiBaseUrl = '') => [
     }),
 
     // game api
+    rest.get<Game>(`${apiBaseUrl}/games`, (req, res, ctx) => {
+        const games = JSON.parse(sessionStorage.getItem('games'));
+        return res(ctx.json(games));
+    }),
     rest.post<Game>(`${apiBaseUrl}/games`, (req, res, ctx) => {
-        const newId = gameCount;
         const game: Game = {
-            id: newId,
+            id: newId(),
             ...req.body,
         };
-        sessionStorage.setItem('games/' + newId, JSON.stringify(game));
-        gameCount += 1;
+        const games = JSON.parse(sessionStorage.getItem('games'));
+        games.push(game);
+        sessionStorage.setItem('games', JSON.stringify(games));
 
         return res(ctx.json(game));
     }),

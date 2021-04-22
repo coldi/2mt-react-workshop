@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Layout from './components/Layout';
 import PageLoadingIndicator from './components/PageLoadingIndicator';
 import GameForm from './pages/GameForm';
+import GameList from './pages/GameList';
 import globalStyles from './styles/global';
 import theme from './styles/theme';
 
@@ -27,11 +28,14 @@ export default function App() {
                             <Layout>
                                 <Suspense fallback={<PageLoadingIndicator />}>
                                     <Switch>
-                                        <Route path="/dash" exact>
+                                        <Route path="/" exact>
                                             <Dashboard />
                                         </Route>
-                                        <Route path="/games/new" exact>
+                                        <Route path="/games/new">
                                             <GameForm />
+                                        </Route>
+                                        <Route path="/games">
+                                            <GameList />
                                         </Route>
                                     </Switch>
                                 </Suspense>

@@ -16,13 +16,14 @@ export default function AppNav() {
     return (
         <nav>
             <List>
-                <AppNavItem label="Home" to="/dash" exact />
+                <AppNavItem label="Home" to="/" exact />
             </List>
 
             <Divider />
 
             <List subheader={withHeader('Games')}>
-                <AppNavItem label="Create" to="/games/new" />
+                <AppNavItem label="Create" to="/games/new" exact />
+                <AppNavItem label="List" to="/games" exact />
             </List>
 
             <Divider />

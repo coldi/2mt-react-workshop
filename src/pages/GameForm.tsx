@@ -1,4 +1,4 @@
-import { Button, Grid, TextField, Typography } from '@material-ui/core';
+import { Box, Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import React, { FormEvent } from 'react';
 import { useMutation } from 'react-query';
@@ -13,46 +13,61 @@ export default function GameForm() {
         }).then(res => res.json())
     );
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-
-        const formData = new FormData(event.currentTarget);
+        // TODO: improve form handling with formik?
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+        // send request
         mutation.mutate(formData);
+
+        form.reset();
     }
 
     return (
         <PageFrame>
-            <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <TextField
-                            variant="outlined"
-                            required
-                            fullWidth
-                            id="game-name"
-                            label="Name"
-                            name="name"
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            variant="outlined"
-                            required
-                            fullWidth
-                            id="game-genre"
-                            label="Genre"
-                            name="genre"
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography component="legend">Rating</Typography>
-                        <Rating name="rating" />
-                    </Grid>
-                </Grid>
-                <Button type="submit" fullWidth variant="contained" color="primary">
-                    Create
-                </Button>
-            </form>
+            <Paper>
+                <Box p={2}>
+                    <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="game-name"
+                                    label="Name"
+                                    name="name"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="game-genre"
+                                    label="Genre"
+                                    name="genre"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography component="legend">Rating</Typography>
+                                <Rating name="rating" />
+                            </Grid>
+                        </Grid>
+                        <Box mt={2}>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                            >
+                                Create
+                            </Button>
+                        </Box>
+                    </form>
+                </Box>
+            </Paper>
         </PageFrame>
     );
 }
