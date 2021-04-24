@@ -11,7 +11,7 @@ import GameList from './pages/GameList';
 import globalStyles from './styles/global';
 import theme from './styles/theme';
 
-// const waitForMs = (delay = 0) => new Promise(resolve => setTimeout(resolve, delay));
+export const waitForMs = (delay = 0) => new Promise(resolve => setTimeout(resolve, delay));
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { suspense: true } } });
@@ -35,6 +35,7 @@ export default function App() {
                                             <GameForm />
                                         </Route>
                                         <Route path="/games">
+                                            <GameForm />
                                             <GameList />
                                         </Route>
                                     </Switch>

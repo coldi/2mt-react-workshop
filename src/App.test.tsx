@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import fetch from 'node-fetch';
 import App from './App';
 import { apiTestUrl, createTestApi, runNavigateTo } from './utils/testUtils';
@@ -38,15 +38,19 @@ it('shows dashboard view', async () => {
 
     const dashboardTitle = await screen.findByRole('heading', { name: /dashboard/i });
 
+    // screen.logTestingPlaygroundURL();
+
     expect(dashboardTitle).toBeInTheDocument();
 });
 
-it('navigates to some page', async () => {
+it('navigates to create game page', async () => {
     render(<App />);
 
-    await runNavigateTo('some page');
+    // TODO: use better selector for nav button
+    const createBtn = screen.getByText(/create/i);
+    fireEvent.click(createBtn);
 
-    const content = await screen.findByText('(empty)');
+    const ratingLabel = await screen.findByText(/rating/i);
 
-    expect(content).toBeInTheDocument();
+    expect(ratingLabel).toBeInTheDocument();
 });

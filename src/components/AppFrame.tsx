@@ -8,6 +8,7 @@ import {
     Toolbar,
     Typography,
 } from '@material-ui/core';
+import React, { Suspense } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import AppNav from './AppNav';
 import GameCounter from './GameCounter';
@@ -65,7 +66,9 @@ export default function AppFrame() {
                             Workshop App
                         </Link>
                     </Typography>
-                    <GameCounter />
+                    <Suspense fallback="Loading">
+                        <GameCounter />
+                    </Suspense>
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" css={styles.drawer}>
