@@ -20,8 +20,16 @@ export default function GameForm() {
         const form = event.currentTarget;
         const formData = new FormData(form);
         // send request
-        await mutation.mutateAsync(formData);
-        queryClient.invalidateQueries('games');
+        await mutation.mutateAsync(formData, {
+            onSuccess(newGame) {
+                // update our local cache with received game entry
+                queryClient.setQueryData<Game[]>('games', prevGames => [
+                    ...prevGames,
+                    newGame,
+                ]);
+            },
+        });
+        // queryClient.invalidateQueries('games');
 
         form.reset();
     }

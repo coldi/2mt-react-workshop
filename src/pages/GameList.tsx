@@ -1,4 +1,6 @@
 import {
+    Box,
+    Button,
     Paper,
     Table,
     TableBody,
@@ -8,15 +10,30 @@ import {
     TableRow,
 } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import PageFrame from '../components/PageFrame';
 import { Game } from '../types/api';
 
+function useQueryWithParams(initialParams: Record<string, any>) {
+    const [params, setParams] = useState(initialParams);
+    const response = useQuery<Game[]>(['games', params], () => {
+        const queryString = Object.entries(params)
+            .map(([key, value]) => `${key}=${value}`)
+            .join('&');
+
+        return fetch('/games?' + queryString).then(res => res.json());
+    });
+
+    function refetch(newParams: typeof initialParams) {
+        setParams(newParams);
+    }
+
+    return { response, refetch };
+}
+
 export default function GameList() {
-    const response = useQuery<Game[]>('games', () =>
-        fetch('/games').then(res => res.json())
-    );
+    const { response, refetch } = useQueryWithParams({ foo: 1 });
 
     return (
         <PageFrame>
@@ -44,6 +61,9 @@ export default function GameList() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Box>
+                <Button onClick={() => refetch({ bar: 25 })}>Refetch</Button>
+            </Box>
         </PageFrame>
     );
 }
